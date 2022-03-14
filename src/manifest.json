@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Xpunge Alt. Icon",
-  "description": "Empties the Trash and Junk folders, and compacts folders in multiple Thunderbird accounts. -- WARNING: THIS IS A FORK (see Homepage) --",
+  "name": "Xpunge Alt.Icon",
+  "description": "Empties the Trash and Junk folders, and compacts folders in multiple Thunderbird accounts. -- An alternative icon version/fork (**CAUTION**: visit 'Homepage' bellow). --",
   "version": "3.0.0.1",
   "author": "Theodore Tegos",
   "homepage_url": "https://github.com/Gregory-K/Xpunge.Alt.Icon",
