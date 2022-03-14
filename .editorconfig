@@ -7,7 +7,7 @@ root = true
 # across the codebase, this '.editorconfig' will only try to
 # protect the original styling of the altered files (easier diffs).
 
-[{manifest.json,README.md,version.txt,xpunge*.svg}]
+[{manifest.json,README.md,version.txt,xpunge*.svg,xpunge_options.xhtml}]
 charset = utf-8
 end_of_line = LF
 indent_size = 2
