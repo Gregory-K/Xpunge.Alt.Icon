@@ -13,6 +13,8 @@ Icon Variations (sub-releases):
   ![green icon](./icons/preview_xpunge_green.png)
 - red (`red`)  
   ![red icon](./icons/preview_xpunge_red.png)
+- white (`white`)  
+  ![white icon](./icons/preview_xpunge_white.png) <sup>_(dark theme only)_</sup>
 
 Homepage:  
 GitHub - https://github.com/Gregory-K/Xpunge.Alt.Icon  
