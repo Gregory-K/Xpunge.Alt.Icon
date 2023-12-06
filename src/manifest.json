@@ -2,13 +2,14 @@
   "manifest_version": 2,
   "name": "Xpunge Alt.Icon",
   "description": "Empties the Trash and Junk folders, and compacts folders in multiple Thunderbird accounts. -- An alternative icon version/fork (**CAUTION**: visit 'Homepage' bellow). --",
-  "version": "3.0.0.1",
+  "version": "4.0.2.1",
   "author": "Theodore Tegos",
   "homepage_url": "https://github.com/Gregory-K/Xpunge.Alt.Icon",
   "applications": {
     "gecko": {
       "id": "{786abda0-fd14-d247-bf69-38b2fc18491b}",
-      "strict_min_version": "91.0"
+      "strict_min_version": "115.0a1",
+      "strict_max_version": "115.*"
     }
   },
   "icons": {

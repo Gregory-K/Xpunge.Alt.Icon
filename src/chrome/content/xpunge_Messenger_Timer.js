@@ -565,7 +565,7 @@ function xpunge_ti_processTrash() {
 				if (xpunge_canEmptyTrashTimer(msgfolder)) {
 					returnedMsg = returnedMsg + "Emptying Trash For Account: " + msgfolder.prettyName + "\n";
 
-					gFolderTreeController.emptyTrash(msgfolder);
+					getFolderPaneInherited().emptyTrash(msgfolder);
 				}
 			} catch (e) {
 				xpunge_ti_consoleService.logStringMessage("xpunge - xpunge_doTimer EXCEPTION 1 ["
@@ -645,7 +645,7 @@ function xpunge_emptyJunkTimer(folder) {
 			if (junkFolder.getTotalMessages(true) > 0) {
 				returnedMsg = returnedMsg + "Emptying Junk Folder (" + junkFolder.prettyName + ") For Account: "
 						+ folder.prettyName + "\n";
-				gFolderTreeController.emptyJunk(junkFolder);
+				getFolderPaneInherited().emptyJunk(junkFolder);
 			} else {
 				xpunge_ti_consoleService.logStringMessage("xpunge - xpunge_doTimer: " + new Date() + "\n\n"
 						+ "Avoiding To Empty Already " 
@@ -697,19 +697,16 @@ function xpunge_ti_processCompact() {
 
 			try {
 				if (xpunge_canCompactFoldersTimer(msgfolder)) {
-					var foldersToCompact = [];
-					foldersToCompact[0] = msgfolder;
-
 					if (msgfolder.isServer) {
 						returnedMsg = returnedMsg + "Compacting All Folders For Account: "
 								+ msgfolder.prettyName + "\n";
 
-						gFolderTreeController.compactAllFoldersForAccount(foldersToCompact);
+						getFolderPaneInherited().compactAllFoldersForAccount(msgfolder);
 					} else {
 						returnedMsg = returnedMsg + "Compacting Folder (" + msgfolder.name + ") on "
 								+ msgfolder.server.prettyName + "\n";
 
-						gFolderTreeController.compactFolders(foldersToCompact);
+						getFolderPaneInherited().compactFolder(msgfolder);
 					}
 				}
 			} catch (e) {

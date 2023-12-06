@@ -6,14 +6,14 @@ var xpunge_mu_consoleService = Components.classes['@mozilla.org/consoleservice;1
 var xpunge_mu_prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
 		.getService(Components.interfaces.nsIPrefBranch);
 
-var xpunge_mu_window = Services.wm.getMostRecentWindow("mail:3pane");
-var xpunge_mu_gFolderTreeController = xpunge_mu_window.gFolderTreeController;
-
 var xpunge_mu_TRASH_SEPARATOR_REGEXP = /   /;
 var xpunge_mu_JUNK_SEPARATOR_REGEXP = /   /;
 var xpunge_mu_COMPACT_SEPARATOR_REGEXP = /   /;
 
 function xpunge_doMultiple() {
+	var xpunge_mu_window = Services.wm.getMostRecentWindow("mail:3pane");
+	var xpunge_mu_folderPane = getFolderPaneFromWindow(xpunge_mu_window);
+
 	var msg = "xpunge - xpunge_doMultiple: " + new Date() + "\n\n";
 
 	if (!xpunge_mu_window) {
@@ -23,9 +23,9 @@ function xpunge_doMultiple() {
 		return;
 	}
 
-	if (!xpunge_mu_gFolderTreeController) {
+	if (!xpunge_mu_folderPane) {
 		xpunge_mu_consoleService.logStringMessage("xpunge - xpunge_doMultiple:" + "\n\n"
-				+ "ERROR - No gFolderTreeController Object!" + "\n");
+				+ "ERROR - No folderPane Object!" + "\n");
 
 		return;
 	}
@@ -33,23 +33,23 @@ function xpunge_doMultiple() {
 	var confirmAction = xpunge_mu_prefBranch.getBoolPref("extensions.xpunge.settings.multi.confirm");
 
 	if (confirmAction) {
-		var proceed = xpunge_mu_proceedWith();
+		var proceed = xpunge_mu_proceedWith(xpunge_mu_window);
 
 		if (!proceed) {
 			return;
 		}
 	}
 
-	msg = msg + xpunge_mu_processJunk();
+	msg = msg + xpunge_mu_processJunk(xpunge_mu_folderPane);
 
-	msg = msg + xpunge_mu_processTrash();
+	msg = msg + xpunge_mu_processTrash(xpunge_mu_folderPane);
 
-	msg = msg + xpunge_mu_processCompact();
+	msg = msg + xpunge_mu_processCompact(xpunge_mu_folderPane);
 
 	xpunge_mu_consoleService.logStringMessage(msg);
 }
 
-function xpunge_mu_processTrash() {
+function xpunge_mu_processTrash(xpunge_mu_folderPane) {
 	var returnedMsg = "";
 
 	var pref_trash = xpunge_mu_prefBranch.getCharPref("extensions.xpunge.multi.trash.accounts");
@@ -92,7 +92,7 @@ function xpunge_mu_processTrash() {
 				if (xpunge_canEmptyTrashMulti(msgfolder)) {
 					returnedMsg = returnedMsg + "Emptying Trash For Account: " + msgfolder.prettyName + "\n";
 
-					xpunge_mu_gFolderTreeController.emptyTrash(msgfolder);
+					xpunge_mu_folderPane.emptyTrash(msgfolder);
 				}
 			} catch (e) {
 				xpunge_mu_consoleService.logStringMessage("xpunge - xpunge_doMultiple EXCEPTION 1 ["
@@ -104,7 +104,7 @@ function xpunge_mu_processTrash() {
 	return returnedMsg;
 }
 
-function xpunge_mu_processJunk() {
+function xpunge_mu_processJunk(xpunge_mu_folderPane) {
 	var returnedMsg = "";
 
 	var pref_junk = xpunge_mu_prefBranch.getCharPref("extensions.xpunge.multi.junk.accounts");
@@ -145,7 +145,7 @@ function xpunge_mu_processJunk() {
 
 			try {
 				if (xpunge_canEmptyJunkMulti(msgfolder)) {
-					returnedMsg = returnedMsg + xpunge_emptyJunkMulti(msgfolder);
+					returnedMsg = returnedMsg + xpunge_emptyJunkMulti(xpunge_mu_folderPane, msgfolder);
 				}
 			} catch (e) {
 				xpunge_mu_consoleService.logStringMessage("xpunge - xpunge_doMultiple EXCEPTION 2 ["
@@ -157,7 +157,7 @@ function xpunge_mu_processJunk() {
 	return returnedMsg;
 }
 
-function xpunge_emptyJunkMulti(folder) {
+function xpunge_emptyJunkMulti(xpunge_mu_folderPane, folder) {
 	var returnedMsg = "";
 
 	// This will discover all folders considered to be "junk". For example, in an IMAP Gmail account
@@ -170,7 +170,7 @@ function xpunge_emptyJunkMulti(folder) {
 			if (junkFolder.getTotalMessages(true) > 0) {
 				returnedMsg = returnedMsg + "Emptying Junk Folder (" + junkFolder.prettyName + ") For Account: "
 						+ folder.prettyName + "\n";
-				xpunge_mu_gFolderTreeController.emptyJunk(junkFolder);
+				xpunge_mu_folderPane.emptyJunk(junkFolder);
 			} else {
 				xpunge_mu_consoleService.logStringMessage("xpunge - xpunge_doMultiple: " + new Date() + "\n\n"
 						+ "Avoiding To Empty Already " 
@@ -186,7 +186,7 @@ function xpunge_emptyJunkMulti(folder) {
 	return returnedMsg;
 }
 
-function xpunge_mu_processCompact() {
+function xpunge_mu_processCompact(xpunge_mu_folderPane) {
 	var returnedMsg = "";
 
 	var pref_compact = xpunge_mu_prefBranch.getCharPref("extensions.xpunge.multi.compact.accounts");
@@ -220,19 +220,16 @@ function xpunge_mu_processCompact() {
 
 			try {
 				if (xpunge_canCompactFoldersMulti(msgfolder)) {
-					var foldersToCompact = [];
-					foldersToCompact[0] = msgfolder;
-
 					if (msgfolder.isServer) {
 						returnedMsg = returnedMsg + "Compacting All Folders For Account: "
 								+ msgfolder.prettyName + "\n";
 
-						xpunge_mu_gFolderTreeController.compactAllFoldersForAccount(foldersToCompact);
+						xpunge_mu_folderPane.compactAllFoldersForAccount(msgfolder);
 					} else {
 						returnedMsg = returnedMsg + "Compacting Folder (" + msgfolder.name + ") on "
 								+ msgfolder.server.prettyName + "\n";
 
-						xpunge_mu_gFolderTreeController.compactFolders(foldersToCompact);
+						xpunge_mu_folderPane.compactFolder(msgfolder);
 					}
 				}
 			} catch (e) {
@@ -365,16 +362,12 @@ function xpunge_mu_doMenuActionCall(elem) {
 	xpunge_doMultiple();
 }
 
-function xpunge_mu_proceedWith() {
+function xpunge_mu_proceedWith(xpunge_mu_window) {
 	let stringBundle = Services.strings.createBundle("chrome://xpunge/locale/xpunge_strings.properties");
 
 	var trashSettings = xpunge_mu_calculateTrashSettings();
 	var junkSettings = xpunge_mu_calculateJunkSettings();
 	var compactSettings = xpunge_mu_calculateCompactSettings(stringBundle);
-
-	// get a reference to the prompt service component.
-	var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-			.getService(Components.interfaces.nsIPromptService);
 
 	var dialogTitle = stringBundle.GetStringFromName("xpunge_multi_str_confirm_dialog_title");
 
@@ -383,7 +376,7 @@ function xpunge_mu_proceedWith() {
 
 	// Show a confirmation dialog. For the first argument, supply the parent window. The second
 	// argument is the dialog title and the third argument is the message to display.
-	return promptService.confirm(xpunge_mu_window, dialogTitle, dialogMsg);
+	return Services.prompt.confirm(xpunge_mu_window, dialogTitle, dialogMsg);
 }
 
 function xpunge_mu_calculateTrashSettings() {

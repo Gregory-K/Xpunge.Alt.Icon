@@ -19,7 +19,7 @@
   onload="xpunge_LoadOptions()"
   buttons="accept, cancel"
   persist="screenX screenY width height"
-  style="width:740px; height:540px;"
+  style="width:840px; height:600px;"
   flex="1">
 
   <script type="application/javascript" src="chrome://xpunge/content/xpunge_imports.js"/>
@@ -43,7 +43,7 @@
 
   <spacer style="height:1.0em;"/>
 
-  <tabbox style="width:700px; height:390px;" flex="1">
+  <tabbox style="width:846px; height:390px;" flex="1">
     <tabs>
       <tab label="&xpunge.options.tab.single;"/>
       <tab label="&xpunge.options.tab.multi;"/>
@@ -91,17 +91,17 @@
 
               <spacer style="height:5px;"/>
 
-              <tree id="xpunge_options_multi_emptied_accounts" flex="1" style="width:380px; height:240px;"
+              <tree id="xpunge_options_multi_emptied_accounts" flex="1" style="width:655px; height:240px;"
                 onfocus="xpunge_multi_doHandleEmptiedAccountsFocus();"
                 editable="true" seltype="single" hidecolumnpicker="true">
                 <treecols>
-                  <treecol id="xpunge_options_multi_emptied_accounts_col_account" label="&xpunge.options.multi.emptied.col.account;" flex="2" style="text-align: left" persist="width"/>
+                  <treecol id="xpunge_options_multi_emptied_accounts_col_account" label="&xpunge.options.multi.emptied.col.account;" style="width:300px; min-width:300px; text-align: left;" persist="width"/>
                   <splitter class="tree-splitter"/>
-                  <treecol id="xpunge_options_multi_emptied_accounts_col_uri" label="&xpunge.options.multi.emptied.col.uri;" flex="1" style="width:100px; text-align: left" persist="width"/>
+                  <treecol id="xpunge_options_multi_emptied_accounts_col_uri" label="&xpunge.options.multi.emptied.col.uri;" style="width:200px; min-width:200px; text-align: left;" persist="width"/>
                   <splitter class="tree-splitter"/>
-                  <treecol id="xpunge_options_multi_emptied_accounts_col_trash" label="&xpunge.options.multi.emptied.col.trash;" flex="1" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center" persist="width"/>
+                  <treecol id="xpunge_options_multi_emptied_accounts_col_trash" label="&xpunge.options.multi.emptied.col.trash;" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center;" persist="width"/>
                   <splitter class="tree-splitter"/>
-                  <treecol id="xpunge_options_multi_emptied_accounts_col_junk" label="&xpunge.options.multi.emptied.col.junk;" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center" persist="width"/>
+                  <treecol id="xpunge_options_multi_emptied_accounts_col_junk" label="&xpunge.options.multi.emptied.col.junk;" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center;" persist="width"/>
                 </treecols>
 
                 <treechildren/>
@@ -113,7 +113,7 @@
             <spacer style="width:20px;"/>
 
             <vbox flex="0">
-              <spacer style="height:42px;"/>
+              <spacer style="height:57px;"/>
 
               <button id="xpunge_options_multi_trash_add_all"
                 class="dialog"
@@ -173,7 +173,7 @@
             <spacer style="width:20px;"/>
 
             <vbox flex="0">
-              <spacer style="height:42px;"/>
+              <spacer style="height:57px;"/>
 
               <button id="xpunge_options_multi_compact_add"
                 class="dialog"
@@ -248,29 +248,29 @@
 
               <spacer style="height:6px;"/>
 
-              <tree id="xpunge_options_timer_emptied_accounts" flex="1" style="width:380px; height:240px;"
+              <tree id="xpunge_options_timer_emptied_accounts" flex="1" style="width:655px; height:250px;"
               	onfocus="xpunge_timer_doHandleEmptiedAccountsFocus();"
                 editable="true" seltype="single" hidecolumnpicker="true">
                 <treecols>
-                  <treecol id="xpunge_options_timer_emptied_accounts_col_account" label="&xpunge.options.timer.emptied.col.account;" flex="2" style="text-align: left" persist="width"/> 
+                  <treecol id="xpunge_options_timer_emptied_accounts_col_account" label="&xpunge.options.timer.emptied.col.account;" style="width:300px; min-width:300px; text-align: left;" persist="width"/> 
                   <splitter class="tree-splitter"/>
-                  <treecol id="xpunge_options_timer_emptied_accounts_col_uri" label="&xpunge.options.timer.emptied.col.uri;" flex="1" style="width:100px; text-align: left" persist="width"/> 
+                  <treecol id="xpunge_options_timer_emptied_accounts_col_uri" label="&xpunge.options.timer.emptied.col.uri;" style="width:200px; min-width:200px; text-align: left;" persist="width"/> 
                   <splitter class="tree-splitter"/>
-                  <treecol id="xpunge_options_timer_emptied_accounts_col_trash" label="&xpunge.options.timer.emptied.col.trash;" flex="1" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center" persist="width"/> 
+                  <treecol id="xpunge_options_timer_emptied_accounts_col_trash" label="&xpunge.options.timer.emptied.col.trash;" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center;" persist="width"/> 
                   <splitter class="tree-splitter"/>
-                  <treecol id="xpunge_options_timer_emptied_accounts_col_junk" label="&xpunge.options.timer.emptied.col.junk;" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center" persist="width"/> 
+                  <treecol id="xpunge_options_timer_emptied_accounts_col_junk" label="&xpunge.options.timer.emptied.col.junk;" type="checkbox" editable="true" style="width:70px; min-width:70px; text-align: center;" persist="width"/> 
                 </treecols>
 
                 <treechildren/>
               </tree>
 
-              <spacer style="height:6px;"/>
+              <spacer style="height:1px;"/>
             </vbox>
 
             <spacer style="width:20px;"/>
 
             <vbox flex="0">
-              <spacer style="height:21px;"/>
+              <spacer style="height:26px;"/>
 
               <button id="xpunge_options_timer_trash_add_all"
                 class="dialog"
@@ -306,7 +306,7 @@
             </vbox>
           </hbox>
 
-          <spacer style="height:10px;"/>
+          <spacer style="height:5px;"/>
 
           <hbox id="xpunge_options_timer_compact_box" flex="1">
             <vbox flex="1">

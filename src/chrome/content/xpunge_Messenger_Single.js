@@ -57,7 +57,7 @@ function xpunge_doSingle() {
 			if ((empty_trash) && (xpunge_canEmptyTrashSingle(xpunge_si_selectedFolder))) {
 				msg = msg + "Emptying Trash For Account: " + xpunge_si_selectedFolder.server.prettyName
 						+ "\n";
-				gFolderTreeController.emptyTrash();
+				getFolderPaneInherited().emptyTrash(xpunge_si_selectedFolder);
 			}
 		} catch (e) {
 			xpunge_si_consoleService.logStringMessage("xpunge - xpunge_doSingle EXCEPTION 3 [" + new Date()
@@ -78,7 +78,7 @@ function xpunge_doSingle() {
 			if ((compact_folders) && (xpunge_canCompactFoldersSingle(xpunge_si_selectedFolder))) {
                 msg = msg + "Compacting All Folders For Account: " + xpunge_si_selectedFolder.server.prettyName
                     + "\n";
-				gFolderTreeController.compactAllFoldersForAccount();
+				getFolderPaneInherited().compactAllFoldersForAccount(xpunge_si_selectedFolder);
 			}
 		} catch (e) {
 			xpunge_si_consoleService.logStringMessage("xpunge - xpunge_doSingle EXCEPTION 5 [" + new Date()
@@ -105,7 +105,7 @@ function xpunge_emptyJunkSingle(selectedFolder) {
 			if (junkFolder.getTotalMessages(true) > 0) {
 				returnedMsg = returnedMsg + "Emptying Junk Folder (" + junkFolder.prettyName + ") For Account: "
 						+ selectedFolder.server.prettyName + "\n";
-				gFolderTreeController.emptyJunk(junkFolder);
+				getFolderPaneInherited().emptyJunk(junkFolder);
 			} else {
 				xpunge_si_consoleService.logStringMessage("xpunge - xpunge_doSingle: " + new Date() + "\n\n"
 						+ "Avoiding To Empty Already " 
@@ -260,10 +260,6 @@ function xpunge_si_proceedWith(selectedFolder) {
 
 	var compact_folders = xpunge_si_prefBranch.getBoolPref("extensions.xpunge.single.compact");
 
-	// get a reference to the prompt service component.
-	var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-			.getService(Components.interfaces.nsIPromptService);
-
 	var stringBundle = Services.strings.createBundle("chrome://xpunge/locale/xpunge_strings.properties");
 
 	var empty_trash_str;
@@ -297,5 +293,5 @@ function xpunge_si_proceedWith(selectedFolder) {
 
 	// Show a confirmation dialog. For the first argument, supply the parent window. The second
 	// argument is the dialog title and the third argument is the message to display.
-	return promptService.confirm(window, dialogTitle, dialogMsg);
+	return Services.prompt.confirm(window, dialogTitle, dialogMsg);
 }

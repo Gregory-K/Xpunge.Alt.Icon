@@ -20,9 +20,9 @@ Homepage:
 GitHub - https://github.com/Gregory-K/Xpunge.Alt.Icon  
 
 Version:  
-**3.0.0.1**  
+**4.0.2.1**  
 Compatibility:  
-91.0 <= Thunderbird version
+115.0a1 <= Thunderbird version <= 115.*
 
 
 ## Install / Update
